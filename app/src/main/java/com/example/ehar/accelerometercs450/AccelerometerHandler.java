@@ -12,6 +12,7 @@ import java.util.Observable;
  * Created by ehar on 9/6/2016.
  */
 public class AccelerometerHandler
+        extends Observable
         implements SensorEventListener {
 
     private SensorManager sensorManager = null;
@@ -38,8 +39,8 @@ public class AccelerometerHandler
 
         if (curr_time - this.prev_time > ONE_SEC_IN_MILLIS) {
             this.prev_time = curr_time;
-            float z = sensorEvent.values[2];
-            act.new_accel_z_value(z);
+            setChanged();
+            notifyObservers(sensorEvent.values);
         }
     }
 

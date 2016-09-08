@@ -4,9 +4,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import java.util.Observable;
 import java.util.Observer;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+implements Observer {
 
     TextView z_accel_view = null;
     private AccelerometerHandler ah = null;
@@ -23,11 +25,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         this.ah = new AccelerometerHandler(this);
+        this.ah.addObserver(this);
     }
 
-    public void new_accel_z_value(float z) {
-        this.z_accel_view.setText(Float.toString(z));
+    @Override
+    public void update(Observable observable, Object o) {
+        float [] xyz = (float []) o;
+        this.z_accel_view.setText(Float.toString(xyz[2]));
     }
-
-
 }
